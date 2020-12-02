@@ -1,0 +1,109 @@
+<html>
+
+<head>
+    <title>Trondheim Kino</title>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <h1>Koronavennlig Kinobestilling</h1>
+    <div id="velgFilm">
+    <h2>Velg film</h2>
+        <input type=radio id="rdFrost" class="film" name="film" data-pris="120" value="Frost">
+            <label for="rdFrost">Frost</label>
+
+       <input type=radio id="rdInception" class="film" name="film" data-pris="150" value="Inception">
+            <label  for="rdInception">Inception</label>
+    </div>
+        <div id="velgSnacks">
+        <h3>Velg snacks</h3>
+        <input type="checkbox" id="chkPopcorn" class="snacks" name="snacks" data-pris="60" value="Popcorn">
+        <label for="chkPopcorn">Popcorn</label>
+
+        <input type="checkbox" id="chkSmash" class="snacks" name="snacks" data-pris="35" value="Smash">
+        <label for="chkSmash">Smash</label>
+
+        <input type="checkbox" id="chkBaconsnacks" class="snacks" name="snacks" data-pris="65" value="Baconsnacks">
+        <label for="chkBaconsnacks">Baconsnacks</label>
+    </div>
+        <br><br>
+        <div id="bestillKnappdiv">
+            
+        <button class="knapp" id="btnBestill">Bestill</button>
+    </div>
+            <br><br>
+    
+        <div id="bestilling"></div>
+</body>
+<script>
+    let bestillKnapp =
+        document.getElementById("btnBestill");
+    let bestilling = document.getElementById("bestilling")
+
+    function getFilm() {
+        let frost = document.getElementById("rdFrost");
+        let inception =
+            document.getElementById("rdInception");
+
+        if (frost.checked)
+            return {
+                film: frost.value,
+                pris: frost.getAttribute("data-pris")
+            };
+        else if (inception.checked) {
+            return {
+                film: inception.value,
+                pris: inception.getAttribute("data-pris")
+            };
+        } else {
+            alert("Velg en film");
+        }
+
+
+    };
+
+    function getSnacks() {
+        let snacks = document.getElementsByClassName("snacks");
+        let valgtSnacks = [];
+
+
+        for (let i = 0; i < snacks.length; i++) {
+            if (snacks[i].checked) {
+                valgtSnacks.push({
+                    snacks: snacks[i].value,
+                    pris: snacks[i].getAttribute("data-pris")
+                });
+            }
+        }
+        return valgtSnacks;
+    }
+
+
+
+    function bestill() {
+        let film = getFilm();
+        let bestiltSnacks = getSnacks();
+        let snacksTekst = "";
+        let totalpris = +film.pris;
+
+        for (let i = 0; i < bestiltSnacks.length; i++) {
+            snacksTekst += bestiltSnacks[i].snacks + " " + bestiltSnacks[i].pris + "kr" + ", ";
+            totalpris += +bestiltSnacks[i].pris;
+        }
+
+
+        bestilling.innerHTML = "Du har bestilt bilett til filmen " + film.film + " " + film.pris + "kr" + " med snacksen " + snacksTekst + " som totalt blir " + totalpris + "kr.";
+
+        return totalpris;
+    }
+
+
+
+    bestillKnapp.addEventListener("click", bestill)
+
+</script>
+
+</html>
